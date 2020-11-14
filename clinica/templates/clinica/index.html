@@ -1,11 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clínica de Optometría</title>
-</head>
-<body>
-    {{titulo}}
-</body>
-</html>
+{% extends "clinica/layout.html" %}
+
+{% block body %}
+<h1>{{titulo}}</h1>
+<ul>
+    {% for medico in medicos %}
+    <li>Medico: {{medico.nombre }} {{medico.apellido}}</li>
+    {% endfor %}
+    </ul>
+    
+<p> {{pacientes}},
+    {{turnos}},
+    {{historiales_medicos}}, 
+    {{productos}},
+    {{pedidos}}</p>
+{% endblock %}

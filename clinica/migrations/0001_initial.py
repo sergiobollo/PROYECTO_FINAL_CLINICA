@@ -45,11 +45,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nombre_producto', models.CharField(max_length=64)),
                 ('precio', models.DecimalField(decimal_places=2, max_digits=5)),
-                ('tipo_de_pago', models.CharField(max_length=64)),
                 ('lente', models.CharField(max_length=64)),
                 ('armazon', models.CharField(max_length=64)),
-                ('estado', models.CharField(max_length=64)),
-                ('paciente', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, related_name='paciente_producto', to='clinica.paciente')),
             ],
         ),
         migrations.CreateModel(
@@ -59,7 +56,11 @@ class Migration(migrations.Migration):
                 ('cantidad', models.IntegerField()),
                 ('subtotal', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('fecha_y_hora', models.DateTimeField(auto_now_add=True)),
+                ('tipo_de_pago', models.CharField(max_length=64)),
                 ('producto', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, related_name='producto_pedido', to='clinica.producto')),
+                ('estado', models.CharField(max_length=64)),
+                ('paciente', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, related_name='paciente_producto', to='clinica.paciente')),
+           
             ],
         ),
         migrations.CreateModel(
