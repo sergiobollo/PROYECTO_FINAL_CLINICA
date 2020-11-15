@@ -1,0 +1,13 @@
+{% extends "clinica/layout.html" %}
+
+{% block body %}
+<h1>{{titulo}}</h1>
+
+<ul>
+{% for producto in productos %}
+<li>Codigo: {{producto.id}}. Nombre: {{producto.nombre_producto}}. Precio: ${{producto.precio}}. Lente: {{producto.lente}}. Armazon: {{producto.armazon}}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'clinica:index' %}">Menu principal</a>
+{% endblock %}

@@ -2,17 +2,11 @@
 
 {% block body %}
 <h1>{{titulo}}</h1>
+
 <ul>
-    {% for medico in medicos %}
-    <li>Medico: {{medico.nombre }} {{medico.apellido}}</li>
-    {% endfor %}
-    </ul>
-    
-<p> {{pacientes}},
-    {{turnos}},
-    {{historiales_medicos}}, 
-    {{productos}},
-    {{pedidos}}</p>
-<a href="{% url 'clinica:turnos' %}">Turnos</a>
-<a href="{% url 'clinica:pacientes' %}">Pacientes</a>
+<li><a href="{% url 'clinica:turnos' %}">Turnos</a></li>
+<li><a href="{% url 'clinica:pacientes' %}">Pacientes</a></li>
+<li><a href="{% url 'clinica:productos' %}">Productos</a></li>
+<li><a href="{% url 'clinica:pedidos' %}">Pedidos</a></li>
+</ul>
 {% endblock %}

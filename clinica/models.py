@@ -40,14 +40,20 @@ class Producto(models.Model):
     armazon = models.CharField(max_length=64)
     
     def __str__(self):
-        return f" {self.nombre_producto} {self.precio} {self.lente} {self.armazon} "
+        return f" {self.nombre_producto}"
+    
+class FormaDePago(models.Model):
+    nombre = models.CharField(max_length=64)
+  
+    def __str__(self):
+        return f"{self.nombre}"  
     
 class Pedido(models.Model):
     paciente = models.ForeignKey(Paciente, on_delete=models.RESTRICT, related_name="paciente_producto")
     producto = models.ForeignKey(Producto, on_delete=models.RESTRICT, related_name="producto_pedido")
     cantidad = models.IntegerField()
     subtotal = models.DecimalField(decimal_places=2, max_digits=10)
-    tipo_de_pago = models.CharField(max_length=64)
+    tipo_de_pago = models.ForeignKey(FormaDePago, on_delete=models.RESTRICT, related_name="forma_de_pago", default="1")
     estado = models.CharField(max_length=64)
     fecha_y_hora = models.DateTimeField(auto_now_add = True)
 

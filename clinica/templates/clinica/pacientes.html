@@ -3,11 +3,11 @@
 {% block body %}
 <h1>{{titulo}}</h1>
 
-<ol>
+<ul>
 {% for paciente in pacientes %}
-<li>{{paciente.nombre}}  {{paciente.apellido}} <a href="{% url 'clinica:historial_medico' paciente.id %}">Historial médico</a></li>
+<li>Legajo {{paciente.id}}: {{paciente.nombre}}  {{paciente.apellido}} <a href="{% url 'clinica:historial_medico' paciente.id %}">Historial médico</a></li>
 {% endfor %}
-</ol>
+</ul>
 
 <a href="{% url 'clinica:index' %}">Menu principal</a>
 {% endblock %}

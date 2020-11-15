@@ -3,11 +3,12 @@
 {% block body %}
 <h1>Historial médico de {{paciente.nombre}}</h1>
 
-<ol>
+<ul>
 {% for historia_medica in historial_medico %}
 <li> {{historia_medica.observacion}}. Diagnostico dado por {{historia_medica.medico}}. Fecha y hora: {{historia_medica.fecha_y_hora}}</li>
 {% endfor %}
-</ol>
+</ul>
 
+<a href="{% url 'clinica:pacientes' %}">Volver a pacientes</a>
 <a href="{% url 'clinica:index' %}">Menu principal</a>
 {% endblock %}

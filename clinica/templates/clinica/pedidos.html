@@ -1,0 +1,15 @@
+{% extends "clinica/layout.html" %}
+
+{% block body %}
+<h1>{{titulo}}</h1>
+
+<a href="{% url 'clinica:hacer_pedido' %}">Hacer nuevo pedido</a>
+
+<ul>
+{% for pedido in pedidos %}
+<li>Número de pedido: {{pedido.id}}. Paciente: {{pedido.paciente}}. Producto: {{pedido.producto.nombre_producto}}. Cantidad: {{pedido.cantidad}}. Subtotal: {{pedido.subtotal}}. Tipo de pago: {{pedido.tipo_de_pago}}. Estado: {{pedido.estado}}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'clinica:index' %}">Menu principal</a>
+{% endblock %}

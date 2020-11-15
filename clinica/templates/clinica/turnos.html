@@ -3,11 +3,11 @@
 {% block body %}
 <h1>{{titulo}}</h1>
 
-<ol>
+<ul>
 {% for turno in turnos %}
 <li>El paciente {{turno.paciente}} tiene turno el dia {{turno.dia}} a las {{turno.hora}} con el doctor {{turno.medico}}</li>
 {% endfor %}
-</ol>
+</ul>
 
 <a href="{% url 'clinica:index' %}">Menu principal</a>
 {% endblock %}

@@ -1,0 +1,18 @@
+{% extends "clinica/layout.html" %}
+
+{% block body %}
+<h1>Hacer pedido nuevo:</h1>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div>
+      <label for="{{ field.name }}">{{ field.label }}</label>
+      {{ field }}
+    </div>
+    {% endfor %}
+    <input type="submit">
+</form>
+{% endblock %}
+
+<a href="{% url 'clinica:index' %}">Menu principal</a>
+<a href="{% url 'clinica:pedidos' %}">Volver al listado de pedidos</a>
