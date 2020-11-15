@@ -84,7 +84,7 @@ def hacer_pedido(request):
 class FormNuevoPedido(forms.Form):
     paciente = forms.ModelChoiceField(queryset = Paciente.objects.all())
     producto = forms.ModelChoiceField(queryset = Producto.objects.all())
-    cantidad = forms.IntegerField(label="Cantidad")
+    cantidad = forms.IntegerField(label="Cantidad", min_value=0, max_value=100)
     tipo_de_pago = forms.ModelChoiceField(queryset = FormaDePago.objects.all())
     
 """def update_db_field(name,field,value):
