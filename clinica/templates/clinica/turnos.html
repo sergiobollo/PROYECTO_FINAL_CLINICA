@@ -2,7 +2,7 @@
 
 {% block body %}
 <h1>{{titulo}}</h1>
-
+<a href="{% url 'clinica:generar_turno' %}">Generar turno</a>
 <ul>
 {% for turno in turnos %}
 <li>El paciente {{turno.paciente}} tiene turno el dia {{turno.dia}} a las {{turno.hora}} con el doctor {{turno.medico}}</li>

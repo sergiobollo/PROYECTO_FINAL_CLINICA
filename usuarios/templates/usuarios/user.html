@@ -1,0 +1,10 @@
+{% extends "usuarios/layout.html" %}
+{% block body %}
+<h1>Bienvenido, {{ request.usuario.nombre }}</h1>
+<ul>
+<li>Usuario: {{ request.usuario.apellido }}</li>
+<li>Email: {{ request.usuario.email }}</li>
+</ul>
+<a href="{% url 'clinica:turnos' %}">Gestionar turnos</a>
+<a href="{% url 'logout' %}">Desconectarse</a>
+{% endblock %}

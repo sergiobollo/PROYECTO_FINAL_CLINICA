@@ -33,11 +33,30 @@ class HistorialMedico(models.Model):
     def __str__(self):
         return f"{self.paciente} {self.medico} {self.fecha_y_hora} {self.observacion}"
     
+class IzquierdaDerecha(models.Model):
+    izquierda_derecha = models.CharField(max_length=64, default="No aplica")
+    
+    def __str__(self):
+        return f" {self.izquierda_derecha}"
+    
+class LejosCerca(models.Model):
+    lejos_cerca = models.CharField(max_length=64, default="No aplica")
+    
+    def __str__(self):
+        return f" {self.lejos_cerca}"
+    
+class Armazon(models.Model):
+    armazon = models.CharField(max_length=64, default="No aplica")
+    
+    def __str__(self):
+        return f" {self.armazon}"
+    
 class Producto(models.Model):
     nombre_producto = models.CharField(max_length=64)
     precio = models.DecimalField(decimal_places=2, max_digits=5)
-    lente = models.CharField(max_length=64)
-    armazon = models.CharField(max_length=64)
+    lejos_cerca = models.ForeignKey(LejosCerca, on_delete=models.RESTRICT, related_name="lejos_o_cerca")
+    izquierda_derecha = models.ForeignKey(IzquierdaDerecha, on_delete=models.RESTRICT, related_name="izquierda_o_derecha")
+    armazon = models.ForeignKey(Armazon, on_delete=models.RESTRICT, related_name="incluye_armazon")
     
     def __str__(self):
         return f" {self.nombre_producto}"
@@ -54,7 +73,7 @@ class Pedido(models.Model):
     cantidad = models.IntegerField()
     subtotal = models.DecimalField(decimal_places=2, max_digits=10)
     tipo_de_pago = models.ForeignKey(FormaDePago, on_delete=models.RESTRICT, related_name="forma_de_pago", default="1")
-    estado = models.CharField(max_length=64)
+    estado = models.CharField(max_length=64, default="Pendiente")
     fecha_y_hora = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):

@@ -1,14 +1,13 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>Historial médico de {{paciente.nombre}}</h1>
-
+<h1>Historial médico de {{paciente.nombre}}, legajo numero {{paciente.id}}</h1>
 <ul>
 {% for historia_medica in historial_medico %}
 <li> {{historia_medica.observacion}}. Diagnostico dado por {{historia_medica.medico}}. Fecha y hora: {{historia_medica.fecha_y_hora}}</li>
 {% endfor %}
 </ul>
-
-<a href="{% url 'clinica:pacientes' %}">Volver a pacientes</a>
+<a href="{% url 'clinica:comentario_medico' %}">Cargar nuevo comentario a historial medico</a>
+<a href="{% url 'clinica:pacientes' %}">Volver al listado de pacientes</a>
 <a href="{% url 'clinica:index' %}">Menu principal</a>
 {% endblock %}
