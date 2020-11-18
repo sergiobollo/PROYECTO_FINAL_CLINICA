@@ -2,12 +2,23 @@
 
 {% block body %}
 <h1>{{titulo}}</h1>
-<a href="{% url 'clinica:generar_turno' %}">Generar turno</a>
+
+<a href="{% url 'usuarios:index' %}">Menu principal</a>
+<p>Filtrar turnos:</p>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div>
+      <label for="{{ field.name }}">{{ field.label }}</label>
+      {{ field }}
+    </div>
+    {% endfor %}
+    <input type="submit">
+</form>
 <ul>
 {% for turno in turnos %}
 <li>El paciente {{turno.paciente}} tiene turno el dia {{turno.dia}} a las {{turno.hora}} con el doctor {{turno.medico}}</li>
 {% endfor %}
 </ul>
 
-<a href="{% url 'clinica:index' %}">Menu principal</a>
 {% endblock %}

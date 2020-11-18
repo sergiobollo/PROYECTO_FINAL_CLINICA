@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 
 def index(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
+        return HttpResponseRedirect(reverse("usuarios:login_view"))
     return render(request, "usuarios/user.html")
 
 def login_view(request):
@@ -15,7 +15,7 @@ def login_view(request):
         usuario = authenticate(request, username=username, password=password)
         if usuario:
             login(request, usuario)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("usuarios:index"))
         else:
             return render(request, "usuarios/login.html", {
                 "mensaje": "Credenciales no validas"

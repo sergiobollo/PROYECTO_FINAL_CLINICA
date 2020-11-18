@@ -1,12 +1,14 @@
 {% extends "usuarios/layout.html" %}
 {% block body %}
+<p>Inicie sesión para comenzar:</p>
 {% if mensaje %}
 <div>{{ mensaje }}</div>
 {% endif %}
-<form action="{% url 'login' %}" method="post">
+<form action="{% url 'usuarios:login' %}" method="post">
 {% csrf_token %}
 <input type="text", name="username", placeholder="Username">
 <input type="password", name="password", placeholder="Password">
 <input type="submit", value="Login">
 </form>
+<a href="{% url 'clinica:index' %}">Home</a>
 {% endblock %}

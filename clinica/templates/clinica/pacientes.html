@@ -2,13 +2,12 @@
 
 {% block body %}
 <h1>{{titulo}}</h1>
-<a href="{% url 'clinica:comentario_medico' %}">Cargar nuevo comentario a historial medico</a>
-<a href="{% url 'clinica:crear_paciente' %}">Crear nuevo paciente</a>
+<p>Doctor: {{medico}}</p>
 <ul>
 {% for paciente in pacientes %}
 <li>Legajo {{paciente.id}}: {{paciente.nombre}}  {{paciente.apellido}} <a href="{% url 'clinica:historial_medico' paciente.id %}">Historial médico</a></li>
 {% endfor %}
 </ul>
 
-<a href="{% url 'clinica:index' %}">Menu principal</a>
+<a href="{% url 'usuarios:index' %}">Menu principal</a>
 {% endblock %}

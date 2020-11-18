@@ -12,15 +12,47 @@ def index(request):
         })
     
 def turnos(request):
+    fecha =""
+    if request.method == "POST":
+        form = FormFiltroFecha(request.POST)
+        if form.is_valid():
+            dia = form.cleaned_data["dia"]
+            fecha = dia.dia
+    if request.user.email == "secretarias@clinica.com":
+        if fecha:
+            turnos = Turno.objects.filter(dia=fecha)
+        else:
+            turnos = Turno.objects.all()
+    else:
+        usuario = request.user.username
+        try:
+            medico = Medico.objects.get(username=usuario)
+        except Medico.DoesNotExist:
+            raise Http404("No se encontro medico")
+        if fecha:
+            turnos = Turno.objects.filter(medico=medico).filter(dia=fecha)
+        else:
+            turnos = Turno.objects.filter(medico=medico).filter()
     return render(request,"clinica/turnos.html", {
-        "titulo": "Gestión de turnos",
-        "turnos": Turno.objects.all()
-        })
+        "titulo": "Turnos asignados a pacientes",
+        "turnos": turnos,
+        "form": FormFiltroFecha}
+        )
+    
+class FormFiltroFecha(forms.Form):
+    dia= forms.ModelChoiceField(queryset=Turno.objects.all())
     
 def pacientes(request):
+    usuario = request.user.username
+    try:
+        medico = Medico.objects.get(username=usuario)
+    except Medico.DoesNotExist:
+        raise Http404("No se encontro medico")
+    pacientes = Paciente.objects.filter(medico=medico)    
     return render(request,"clinica/pacientes.html", {
-        "titulo": "Listado de pacientes",
-        "pacientes": Paciente.objects.all(),
+        "titulo": "Historial medico por paciente",
+        "pacientes": pacientes,
+        "medico": medico
         })
     
 def historial_medico(request, paciente_id):
@@ -148,12 +180,14 @@ def crear_paciente(request):
         if form.is_valid():
             nombre = form.cleaned_data["nombre"]
             apellido = form.cleaned_data["apellido"]
+            medico = form.cleaned_data["medico_asignado"]
             paciente = Paciente(nombre=nombre,
-                            apellido = apellido)
+                            apellido = apellido,
+                            medico = medico)
             paciente.save()
-            return HttpResponseRedirect(reverse("clinica:pacientes"))
+            return HttpResponseRedirect(reverse("usuarios:index"))
         else:
-            return render(request, "clinica/cargar_producto_lente.html", {
+            return render(request, "clinica/crear_paciente.html", {
                 "form": form
                 })
     return render(request, "clinica/crear_paciente.html", {"form": FormCrearPaciente})
@@ -161,6 +195,7 @@ def crear_paciente(request):
 class FormCrearPaciente(forms.Form):
     nombre = forms.CharField(max_length=64, label ="Nombre")
     apellido = forms.CharField(max_length=64, label ="Apellido")
+    medico_asignado = forms.ModelChoiceField(queryset = Medico.objects.all())
 
 def generar_turno(request):
     if request.method == "POST":

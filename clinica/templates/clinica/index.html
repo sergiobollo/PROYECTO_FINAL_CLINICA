@@ -2,11 +2,6 @@
 
 {% block body %}
 <h1>{{titulo}}</h1>
-
-<ul>
-<li><a href="{% url 'clinica:turnos' %}">Turnos</a></li>
-<li><a href="{% url 'clinica:pacientes' %}">Pacientes</a></li>
-<li><a href="{% url 'clinica:productos' %}">Productos</a></li>
-<li><a href="{% url 'clinica:pedidos' %}">Pedidos</a></li>
-</ul>
+<p>Inicie sesión para comenzar:</p>
+<a href="{% url 'usuarios:login' %}">Login</a>
 {% endblock %}

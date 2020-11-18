@@ -1,10 +1,41 @@
 {% extends "usuarios/layout.html" %}
 {% block body %}
-<h1>Bienvenido, {{ request.usuario.nombre }}</h1>
+<h1>Clínica de Optometría</h1>
 <ul>
-<li>Usuario: {{ request.usuario.apellido }}</li>
-<li>Email: {{ request.usuario.email }}</li>
+<li>Usuario: {{ request.user.username }}</li>
+<li>Nombre: {{ request.user.first_name }} {{ request.user.last_name }}</li>
+<li>Email: {{ request.user.email }}</li>
 </ul>
-<a href="{% url 'clinica:turnos' %}">Gestionar turnos</a>
-<a href="{% url 'logout' %}">Desconectarse</a>
+
+{% if request.user.email == "administradores@clinica.com" %}
+<h4>Panel de control paras administradores:</h4>
+<ul>
+<li><a href="{% url 'clinica:turnos' %}">Gestionar turnos</a></li>
+<li><a href="{% url 'clinica:pacientes' %}">Gestionar pacientes</a></li>
+<li><a href="{% url 'clinica:productos' %}">Productos</a></li>
+<li><a href="{% url 'clinica:pedidos' %}">Pedidos</a></li>
+</ul>
+{% endif %}
+
+{% if request.user.email == "secretarias@clinica.com" %}
+<h4>Panel de control paras secretarias:</h4>
+<ul>
+<li><a href="{% url 'clinica:generar_turno' %}">Generar turno</a></li>
+<li><a href="{% url 'admin:index' %}">Editar o eliminar turnos</a></li>
+<li><a href="{% url 'clinica:turnos' %}">Consultar turnos</a></li>
+<li><a href="{% url 'clinica:crear_paciente' %}">Crear nuevo paciente</a></li>
+</ul>
+{% endif %}
+
+{% if request.user.email == "medicos@clinica.com" %}
+<h4>Panel de control paras medicos:</h4>
+<ul>
+    <li><a href="{% url 'clinica:turnos' %}">Consultar turnos</a></li>
+    <li><a href="{% url 'clinica:pacientes' %}">Consultar historial medico por paciente</a></li>
+    <li><a href="{% url 'clinica:comentario_medico' %}">Cargar datos al historial medico</a></li>
+    <li><a href="{% url 'admin:index' %}">Editar o eliminar historiales médicos</a></li>
+</ul>
+{% endif %}
+
+<a href="{% url 'usuarios:logout' %}">Desconectarse</a>
 {% endblock %}
