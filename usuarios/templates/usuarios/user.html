@@ -54,8 +54,8 @@
 <li><a href="{% url 'admin:index' %}">Ver todos los datos</a></li>
 <li><a href="{% url 'clinica:asistencia_paciente_turno' %}">Pacientes que asistieron a los turnos en la semana/mes</a></li>
 <li><a href="{% url 'clinica:ausencia_paciente_turno' %}">Pacientes que no asistieron a los turnos en la semana/mes</a></li>
-<li>Pacientes que hicieron por lo menos un Pedido en la semana/mes</li>
-<li>Productos más vendidos en el mes</li>
+<li><a href="{% url 'clinica:pedidos' %}">Pacientes que hicieron por lo menos un Pedido en la semana/mes</a></li>
+<li><a href="{% url 'clinica:productos_mas_vendidos' %}">Productos más vendidos en el mes</a></li>
 <li>Ventas totales por mes clasificadas por Vendedores</li>
 </ul>
 {% endif %}

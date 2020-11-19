@@ -3,9 +3,24 @@
 {% block body %}
 <h1>{{titulo}}</h1>
 
+{% if request.user.email == "gerencia@clinica.com" %}
+<p>Filtrar pacientes por lapso de tiempo:</p>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div>
+      <label for="{{ field.name }}">{{ field.label }}</label>
+      {{ field }}
+    </div>
+    {% endfor %}
+    <input type="submit">
+</form>
+{{mensaje}}
+{% endif %}
+
 <ul>
 {% for pedido in pedidos %}
-<li>Número de pedido: {{pedido.id}}. Paciente: {{pedido.paciente}}. Producto: {{pedido.producto.nombre_producto}}. Cantidad: {{pedido.cantidad}}. Subtotal: {{pedido.subtotal}}. Tipo de pago: {{pedido.tipo_de_pago}}. Estado: {{pedido.estado}}.</li>
+<li>Paciente: {{pedido.paciente}}. Número de pedido: {{pedido.id}}. Producto: {{pedido.producto.nombre_producto}}. Cantidad: {{pedido.cantidad}}. Subtotal: {{pedido.subtotal}}. Tipo de pago: {{pedido.tipo_de_pago}}. Estado: {{pedido.estado}}. Fecha y hora: {{pedido.fecha_y_hora}}</li>
 {% endfor %}
 </ul>
 

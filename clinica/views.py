@@ -130,11 +130,37 @@ def productos(request):
         "titulo": "Productos",
         "productos": Producto.objects.all()
         })
-    
+
 def pedidos(request):
+    ahora = datetime.now()
+    pedidos= Pedido.objects.all()
+    if request.method == "POST":
+        form = FormFiltroSemanaMes(request.POST)
+        if form.is_valid():
+            lapso = form.cleaned_data["lapso"]
+            if lapso == "0":
+                semana = timedelta(weeks=1)
+                fecha = ahora - semana
+                pedidos = Pedido.objects.filter(fecha_y_hora__range=(fecha, ahora))
+                return render(request, "clinica/pedidos.html", {"titulo": "Listado de pedidos por paciente",
+                                                                "pedidos": pedidos,
+                                                                      "form": form,
+                                                                      "mensaje": "Ultima semana:"})
+            else:
+                mes = timedelta(weeks=4)
+                fecha = ahora - mes
+                pedidos = Pedido.objects.filter(fecha_y_hora__range=(fecha, ahora))
+                return render(request, "clinica/pedidos.html", {"titulo": "Listado de pedidos por paciente",
+                                                                "pedidos": pedidos,
+                                                                      "form": form,
+                                                                      "mensaje": "Ultimo mes:"})
+        else:
+            return render(request, "clinica/pedidos.html", {"turnos": turnos,
+                                                                      "form": form})
     return render(request,"clinica/pedidos.html", {
-        "titulo": "Pedidos",
-        "pedidos": Pedido.objects.all()
+        "titulo": "Listado de pedidos por paciente",
+        "pedidos": pedidos,
+        "form": FormFiltroSemanaMes
         })
 
 def hacer_pedido(request):
@@ -151,10 +177,7 @@ def hacer_pedido(request):
                             producto=producto,
                             cantidad = cantidad,
                             tipo_de_pago= tipo_de_pago,
-                            estado = "Pendiente",
                             subtotal = subtotal)
-            print(paciente)
-            print(pedido)
             pedido.save()
             return HttpResponseRedirect(reverse("clinica:pedidos"))
         else:
@@ -349,3 +372,19 @@ class FormComentarMedico(forms.Form):
     paciente = forms.ModelChoiceField(queryset = Paciente.objects.all())
     observacion = forms.CharField()
 
+def productos_mas_vendidos(request):
+    productos = Producto.objects.all()
+    cant_max = 0
+    ahora = datetime.now()
+    mes = timedelta(weeks=4)
+    fecha = ahora - mes
+    for prod in productos:
+        pedidos_prod= Pedido.objects.filter(producto = prod.id).filter(fecha_y_hora__range=(fecha, ahora))
+        cantidad_prod = 0
+        for ped in pedidos_prod:
+            cantidad_prod = cantidad_prod + ped.cantidad
+        if cantidad_prod > cant_max:
+            prod_max = prod.nombre_producto
+            cant_max = cantidad_prod
+    return render(request, "clinica/productos_mas_vendidos.html", {"cantidad": cant_max,
+                                                                   "producto": prod_max})

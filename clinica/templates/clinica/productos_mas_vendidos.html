@@ -1,0 +1,11 @@
+{% extends "clinica/layout.html" %}
+
+{% block body %}
+<h1>Productos más vendidos en el mes:</h1>
+
+
+<p>Cantidad maxima vendida: {{cantidad}} {{producto}}</p>
+ 
+
+<a href="{% url 'usuarios:index' %}">Menu principal</a>
+{% endblock %}

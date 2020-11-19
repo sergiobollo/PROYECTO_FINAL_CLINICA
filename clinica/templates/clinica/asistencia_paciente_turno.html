@@ -3,7 +3,7 @@
 {% block body %}
 <h1>Pacientes que asistieron a los turnos</h1>
 
-<a href="{% url 'usuarios:index' %}">Menu principal</a>
+
 <p>Filtrar pacientes por lapso de tiempo:</p>
 <form method="post">
     {% csrf_token %}
@@ -21,5 +21,5 @@
 <li>El paciente {{turno.paciente}} tiene turno el dia {{turno.dia}} a las {{turno.hora}} con el doctor {{turno.medico}}. Asistencia al turno: {{turno.asistio}}</li>
 {% endfor %}
 </ul>
-
+<a href="{% url 'usuarios:index' %}">Menu principal</a>
 {% endblock %}
