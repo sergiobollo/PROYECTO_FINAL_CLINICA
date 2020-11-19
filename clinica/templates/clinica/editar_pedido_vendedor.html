@@ -1,7 +1,8 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>Hacer pedido nuevo:</h1>
+<h1>Modificar estado de pedidos:</h1>
+{% if request.user.email == "vendedores@clinica.com" %}
 <form method="post">
     {% csrf_token %}
     {% for field in form %}
@@ -12,8 +13,8 @@
     {% endfor %}
     <input type="submit">
 </form>
+
+{% endif %}
 <a href="{% url 'usuarios:index' %}">Menu principal</a>
 <a href="{% url 'clinica:pedidos' %}">Listado de pedidos</a>
 {% endblock %}
-
-

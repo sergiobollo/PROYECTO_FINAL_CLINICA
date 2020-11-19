@@ -7,7 +7,13 @@ class Medico(models.Model):
     especialidad = models.CharField(max_length=64)
   
     def __str__(self):
-        return f"{self.nombre} {self.apellido} {self.especialidad}"  
+        return f"{self.nombre} {self.apellido} {self.especialidad}"
+    
+class AsistenciaTurno(models.Model):
+    nombre = models.CharField(max_length=64)
+    
+    def __str__(self):
+        return f"{self.nombre}"
    
 class Paciente(models.Model):
     nombre = models.CharField(max_length=64)
@@ -22,9 +28,10 @@ class Turno(models.Model):
     medico =  models.ForeignKey(Medico, on_delete=models.RESTRICT, related_name="medico_turno")
     dia = models.DateField()
     hora = models.TimeField()
+    asistio = models.ForeignKey(AsistenciaTurno, on_delete=models.RESTRICT, related_name="asistencia_turno", default = "1")
     
     def __str__(self):
-        return f"{self.dia}"
+        return f" {self.paciente} {self.dia} {self.hora} {self.medico} {self.asistio}"
     
 class HistorialMedico(models.Model):
     paciente = models.ForeignKey(Paciente, on_delete=models.RESTRICT, related_name="paciente_historial")
@@ -36,19 +43,19 @@ class HistorialMedico(models.Model):
         return f"{self.paciente} {self.medico} {self.fecha_y_hora} {self.observacion}"
     
 class IzquierdaDerecha(models.Model):
-    izquierda_derecha = models.CharField(max_length=64, default="No aplica")
+    izquierda_derecha = models.CharField(max_length=64)
     
     def __str__(self):
         return f" {self.izquierda_derecha}"
     
 class LejosCerca(models.Model):
-    lejos_cerca = models.CharField(max_length=64, default="No aplica")
+    lejos_cerca = models.CharField(max_length=64)
     
     def __str__(self):
         return f" {self.lejos_cerca}"
     
 class Armazon(models.Model):
-    armazon = models.CharField(max_length=64, default="No aplica")
+    armazon = models.CharField(max_length=64)
     
     def __str__(self):
         return f" {self.armazon}"
@@ -67,15 +74,21 @@ class FormaDePago(models.Model):
     nombre = models.CharField(max_length=64)
   
     def __str__(self):
-        return f"{self.nombre}"  
+        return f"{self.nombre}"
+    
+class EstadoPedido(models.Model):
+    nombre = models.CharField(max_length=64)
+  
+    def __str__(self):
+        return f"{self.nombre}" 
     
 class Pedido(models.Model):
     paciente = models.ForeignKey(Paciente, on_delete=models.RESTRICT, related_name="paciente_producto")
     producto = models.ForeignKey(Producto, on_delete=models.RESTRICT, related_name="producto_pedido")
     cantidad = models.IntegerField()
     subtotal = models.DecimalField(decimal_places=2, max_digits=10)
-    tipo_de_pago = models.ForeignKey(FormaDePago, on_delete=models.RESTRICT, related_name="forma_de_pago", default="1")
-    estado = models.CharField(max_length=64, default="Pendiente")
+    tipo_de_pago = models.ForeignKey(FormaDePago, on_delete=models.RESTRICT, related_name="forma_de_pago")
+    estado = models.ForeignKey(EstadoPedido, on_delete=models.RESTRICT, related_name="estado_de_pedido", default='1')
     fecha_y_hora = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):

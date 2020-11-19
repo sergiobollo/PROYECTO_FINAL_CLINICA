@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from .models import Medico, Paciente, Turno, HistorialMedico, Producto, Pedido, FormaDePago, LejosCerca, IzquierdaDerecha, Armazon
+from .models import Medico, Paciente, Turno, HistorialMedico, Producto, Pedido, FormaDePago, LejosCerca, IzquierdaDerecha, Armazon, EstadoPedido
 from django.http import HttpResponseBadRequest, HttpResponseRedirect, Http404
 from django.urls import reverse
 from django import forms
+from datetime import datetime, timedelta
 
 # Create your views here.
 
@@ -41,6 +42,64 @@ def turnos(request):
     
 class FormFiltroFecha(forms.Form):
     dia= forms.ModelChoiceField(queryset=Turno.objects.all())
+    
+def asistencia_paciente_turno(request):
+    ahora = datetime.now()
+    turnos = Turno.objects.filter(asistio = "2")
+    if request.method == "POST":
+        form = FormFiltroSemanaMes(request.POST)
+        if form.is_valid():
+            lapso = form.cleaned_data["lapso"]
+            if lapso == "0":
+                semana = timedelta(weeks=1)
+                fecha = ahora - semana
+                turnos = Turno.objects.filter(asistio = "2").filter(dia__range=(fecha, ahora))
+                return render(request, "clinica/asistencia_paciente_turno.html", {"turnos": turnos,
+                                                                      "form": form,
+                                                                      "mensaje": "Ultima semana:"})
+            else:
+                mes = timedelta(weeks=4)
+                fecha = ahora - mes
+                turnos = Turno.objects.filter(asistio = "2").filter(dia__range=(fecha, ahora))
+                return render(request, "clinica/asistencia_paciente_turno.html", {"turnos": turnos,
+                                                                      "form": form,
+                                                                      "mensaje": "Ultimo mes:"})
+        else:
+            return render(request, "clinica/asistencia_paciente_turno.html", {"turnos": turnos,
+                                                                      "form": form})
+    return render(request, "clinica/asistencia_paciente_turno.html", {"turnos": turnos,
+                                                                      "form": FormFiltroSemanaMes})
+
+def ausencia_paciente_turno(request):
+    ahora = datetime.now()
+    turnos = Turno.objects.filter(asistio = "3")
+    if request.method == "POST":
+        form = FormFiltroSemanaMes(request.POST)
+        if form.is_valid():
+            lapso = form.cleaned_data["lapso"]
+            if lapso == "0":
+                semana = timedelta(weeks=1)
+                fecha = ahora - semana
+                turnos = Turno.objects.filter(asistio = "3").filter(dia__range=(fecha, ahora))
+                return render(request, "clinica/ausencia_paciente_turno.html", {"turnos": turnos,
+                                                                      "form": form,
+                                                                      "mensaje": "Ultima semana:"})
+            else:
+                mes = timedelta(weeks=4)
+                fecha = ahora - mes
+                turnos = Turno.objects.filter(asistio = "3").filter(dia__range=(fecha, ahora))
+                return render(request, "clinica/ausencia_paciente_turno.html", {"turnos": turnos,
+                                                                      "form": form,
+                                                                      "mensaje": "Ultimo mes:"})
+        else:
+            return render(request, "clinica/ausencia_paciente_turno.html", {"turnos": turnos,
+                                                                      "form": form})
+    return render(request, "clinica/ausencia_paciente_turno.html", {"turnos": turnos,
+                                                                      "form": FormFiltroSemanaMes})
+
+class FormFiltroSemanaMes(forms.Form):
+    c = [("0", "Ultima semana"), ("1","Ultimo mes")]
+    lapso= forms.ChoiceField(choices=c)
     
 def pacientes(request):
     usuario = request.user.username
@@ -112,6 +171,50 @@ class FormNuevoPedido(forms.Form):
     producto = forms.ModelChoiceField(queryset = Producto.objects.all())
     cantidad = forms.IntegerField(label="Cantidad", min_value=0, max_value=100)
     tipo_de_pago = forms.ModelChoiceField(queryset = FormaDePago.objects.all())
+
+def editar_pedido_vendedor (request):
+    if request.method == "POST":
+        form = FormUpdatePedidoVendedor(request.POST)
+        if form.is_valid():
+            pedido = form.cleaned_data["pedido"]
+            estado = form.cleaned_data["estado"]
+            id = pedido.id
+            Pedido.objects.filter(id=id).update(estado=estado)
+            return HttpResponseRedirect(reverse("clinica:pedidos"))
+        else:
+            return render(request, "clinica/editar_pedido_vendedor.html", {
+                "form": form
+                })
+    
+    return render(request, "clinica/editar_pedido_vendedor.html", {
+        "form": FormUpdatePedidoVendedor()
+    })
+    
+class FormUpdatePedidoVendedor(forms.Form):
+    pedido = forms.ModelChoiceField(queryset = Pedido.objects.all())
+    estado = forms.ModelChoiceField(queryset = EstadoPedido.objects.exclude(nombre = "Finalizado"))
+    
+def editar_pedido_taller (request):
+    if request.method == "POST":
+        form = FormUpdatePedidoTaller(request.POST)
+        if form.is_valid():
+            pedido = form.cleaned_data["pedido"]
+            estado = form.cleaned_data["estado"]
+            id = pedido.id
+            Pedido.objects.filter(id=id).update(estado=estado)
+            return HttpResponseRedirect(reverse("clinica:pedidos"))
+        else:
+            return render(request, "clinica/editar_pedido_taller.html", {
+                "form": form
+                })
+    
+    return render(request, "clinica/editar_pedido_taller.html", {
+        "form": FormUpdatePedidoTaller()
+    })
+    
+class FormUpdatePedidoTaller(forms.Form):
+    pedido = forms.ModelChoiceField(queryset = Pedido.objects.all())
+    estado = forms.ModelChoiceField(queryset = EstadoPedido.objects.filter(nombre = "Finalizado"))
     
 def cargar_producto(request):
     if request.method == "POST":
@@ -246,5 +349,3 @@ class FormComentarMedico(forms.Form):
     paciente = forms.ModelChoiceField(queryset = Paciente.objects.all())
     observacion = forms.CharField()
 
-"""def update_db_field(name,field,value):
-       MyModel.objects.get(name=name).update(field=value)"""

@@ -1,10 +1,10 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>{{titulo}}</h1>
+<h1>Pacientes que asistieron a los turnos</h1>
 
 <a href="{% url 'usuarios:index' %}">Menu principal</a>
-<p>Filtrar turnos:</p>
+<p>Filtrar pacientes por lapso de tiempo:</p>
 <form method="post">
     {% csrf_token %}
     {% for field in form %}
@@ -15,6 +15,7 @@
     {% endfor %}
     <input type="submit">
 </form>
+{{mensaje}}
 <ul>
 {% for turno in turnos %}
 <li>El paciente {{turno.paciente}} tiene turno el dia {{turno.dia}} a las {{turno.hora}} con el doctor {{turno.medico}}. Asistencia al turno: {{turno.asistio}}</li>

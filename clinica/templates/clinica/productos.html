@@ -3,7 +3,7 @@
 {% block body %}
 <h1>{{titulo}}</h1>
 
-<a href="{% url 'clinica:cargar_producto' %}">Cargar nuevo producto</a>
+<a href="{% url 'admin:index' %}">Modificar o eliminar productos</a>
 
 <ul>
 {% for producto in productos %}

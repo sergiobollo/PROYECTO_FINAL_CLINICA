@@ -10,14 +10,10 @@
 {% if request.user.email == "administradores@clinica.com" %}
 <h4>Panel de control paras administradores:</h4>
 <ul>
-<li><a href="{% url 'clinica:turnos' %}">Gestionar turnos</a></li>
-<li><a href="{% url 'clinica:pacientes' %}">Gestionar pacientes</a></li>
-<li><a href="{% url 'clinica:productos' %}">Productos</a></li>
-<li><a href="{% url 'clinica:pedidos' %}">Pedidos</a></li>
+<li><a href="{% url 'admin:index' %}">Administrar el sitio</a></li>
 </ul>
-{% endif %}
 
-{% if request.user.email == "secretarias@clinica.com" %}
+{% elif request.user.email == "secretarias@clinica.com" %}
 <h4>Panel de control paras secretarias:</h4>
 <ul>
 <li><a href="{% url 'clinica:generar_turno' %}">Generar turno</a></li>
@@ -25,15 +21,42 @@
 <li><a href="{% url 'clinica:turnos' %}">Consultar turnos</a></li>
 <li><a href="{% url 'clinica:crear_paciente' %}">Crear nuevo paciente</a></li>
 </ul>
-{% endif %}
 
-{% if request.user.email == "medicos@clinica.com" %}
+{% elif request.user.email == "medicos@clinica.com" %}
 <h4>Panel de control paras medicos:</h4>
 <ul>
     <li><a href="{% url 'clinica:turnos' %}">Consultar turnos</a></li>
     <li><a href="{% url 'clinica:pacientes' %}">Consultar historial medico por paciente</a></li>
     <li><a href="{% url 'clinica:comentario_medico' %}">Cargar datos al historial medico</a></li>
     <li><a href="{% url 'admin:index' %}">Editar o eliminar historiales médicos</a></li>
+</ul>
+
+{% elif request.user.email == "vendedores@clinica.com" %}
+<h4>Panel de control paras vendedores:</h4>
+<ul>
+<li><a href="{% url 'clinica:cargar_producto' %}">Cargar nuevo producto</a></li>
+<li><a href="{% url 'clinica:productos' %}">Listado de productos</a></li>
+<a href="{% url 'admin:index' %}">Modificar o eliminar productos</a>
+<li><a href="{% url 'clinica:hacer_pedido' %}">Hacer nuevo pedido</a></li>
+<li><a href="{% url 'clinica:pedidos' %}">Listado de pedidos</a></li>
+<li><a href="{% url 'clinica:editar_pedido_vendedor' %}">Modificar estado de pedidos</a></li>
+</ul>
+
+{% elif request.user.email == "taller@clinica.com" %}
+<ul>
+<li><a href="{% url 'clinica:pedidos' %}">Listado de pedidos</a></li>
+<li><a href="{% url 'clinica:editar_pedido_taller' %}">Modificar estado de pedidos</a></li>
+<li><a href="{% url 'admin:index' %}">Eliminar pedidos</a></li>
+</ul>
+
+{% elif request.user.email == "gerencia@clinica.com" %}
+<ul>
+<li><a href="{% url 'admin:index' %}">Ver todos los datos</a></li>
+<li><a href="{% url 'clinica:asistencia_paciente_turno' %}">Pacientes que asistieron a los turnos en la semana/mes</a></li>
+<li><a href="{% url 'clinica:ausencia_paciente_turno' %}">Pacientes que no asistieron a los turnos en la semana/mes</a></li>
+<li>Pacientes que hicieron por lo menos un Pedido en la semana/mes</li>
+<li>Productos más vendidos en el mes</li>
+<li>Ventas totales por mes clasificadas por Vendedores</li>
 </ul>
 {% endif %}
 
