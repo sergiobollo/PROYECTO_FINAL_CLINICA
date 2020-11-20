@@ -7,13 +7,13 @@
 <li>Email: {{ request.user.email }}</li>
 </ul>
 
-{% if request.user.email == "administradores@clinica.com" %}
-<h4>Panel de control paras administradores:</h4>
+{% if request.user.is_superuser %}
 <ul>
-<li><a href="{% url 'admin:index' %}">Administrar el sitio</a></li>
+    <li><a href="{% url 'admin:index' %}">Gestionar sitio</a></li>
 </ul>
+{% endif %}
 
-{% elif request.user.email == "secretarias@clinica.com" %}
+{% if request.user.is_secretaria %}
 <h4>Panel de control paras secretarias:</h4>
 <ul>
 <li><a href="{% url 'clinica:generar_turno' %}">Generar turno</a></li>
@@ -21,8 +21,9 @@
 <li><a href="{% url 'clinica:turnos' %}">Consultar turnos</a></li>
 <li><a href="{% url 'clinica:crear_paciente' %}">Crear nuevo paciente</a></li>
 </ul>
+{% endif %}
 
-{% elif request.user.email == "medicos@clinica.com" %}
+{% if request.user.is_medico %}
 <h4>Panel de control paras medicos:</h4>
 <ul>
     <li><a href="{% url 'clinica:turnos' %}">Consultar turnos</a></li>
@@ -30,8 +31,9 @@
     <li><a href="{% url 'clinica:comentario_medico' %}">Cargar datos al historial medico</a></li>
     <li><a href="{% url 'admin:index' %}">Editar o eliminar historiales médicos</a></li>
 </ul>
+{% endif %}
 
-{% elif request.user.email == "vendedores@clinica.com" %}
+{% if request.user.is_vendedor %}
 <h4>Panel de control paras vendedores:</h4>
 <ul>
 <li><a href="{% url 'clinica:cargar_producto' %}">Cargar nuevo producto</a></li>
@@ -41,22 +43,24 @@
 <li><a href="{% url 'clinica:pedidos' %}">Listado de pedidos</a></li>
 <li><a href="{% url 'clinica:editar_pedido_vendedor' %}">Modificar estado de pedidos</a></li>
 </ul>
+{% endif %}
 
-{% elif request.user.email == "taller@clinica.com" %}
+{% if request.user.is_taller %}
 <ul>
 <li><a href="{% url 'clinica:pedidos' %}">Listado de pedidos</a></li>
 <li><a href="{% url 'clinica:editar_pedido_taller' %}">Modificar estado de pedidos</a></li>
 <li><a href="{% url 'admin:index' %}">Eliminar pedidos</a></li>
 </ul>
+{% endif %}
 
-{% elif request.user.email == "gerencia@clinica.com" %}
+{% if request.user.is_gerencia %}
 <ul>
 <li><a href="{% url 'admin:index' %}">Ver todos los datos</a></li>
 <li><a href="{% url 'clinica:asistencia_paciente_turno' %}">Pacientes que asistieron a los turnos en la semana/mes</a></li>
 <li><a href="{% url 'clinica:ausencia_paciente_turno' %}">Pacientes que no asistieron a los turnos en la semana/mes</a></li>
 <li><a href="{% url 'clinica:pedidos' %}">Pacientes que hicieron por lo menos un Pedido en la semana/mes</a></li>
 <li><a href="{% url 'clinica:productos_mas_vendidos' %}">Productos más vendidos en el mes</a></li>
-<li>Ventas totales por mes clasificadas por Vendedores</li>
+<li><a href="{% url 'clinica:total_vendedor' %}">Ventas totales por mes clasificadas por Vendedores</a></li>
 </ul>
 {% endif %}
 

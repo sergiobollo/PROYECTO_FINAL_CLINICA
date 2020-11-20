@@ -3,7 +3,7 @@
 {% block body %}
 <h1>Modificar estado de pedidos:</h1>
 
-{% if request.user.email == "taller@clinica.com" %}
+{% if request.user.is_taller %}
 <form method="post">
     {% csrf_token %}
     {% for field in form %}

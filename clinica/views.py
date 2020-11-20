@@ -1,9 +1,13 @@
 from django.shortcuts import render
-from .models import Medico, Paciente, Turno, HistorialMedico, Producto, Pedido, FormaDePago, LejosCerca, IzquierdaDerecha, Armazon, EstadoPedido
+from .models import Medico, Paciente, Turno, HistorialMedico, Producto, Pedido, FormaDePago, LejosCerca, IzquierdaDerecha, Armazon, EstadoPedido, AsistenciaTurno, Vendedor
 from django.http import HttpResponseBadRequest, HttpResponseRedirect, Http404
 from django.urls import reverse
 from django import forms
+from django.utils.translation import get_language, activate
 from datetime import datetime, timedelta
+from django.template.defaultfilters import date
+import calendar, locale
+locale.setlocale(locale.LC_ALL, 'es-ES')
 
 # Create your views here.
 
@@ -19,7 +23,7 @@ def turnos(request):
         if form.is_valid():
             dia = form.cleaned_data["dia"]
             fecha = dia.dia
-    if request.user.email == "secretarias@clinica.com":
+    if request.user.is_secretaria:
         if fecha:
             turnos = Turno.objects.filter(dia=fecha)
         else:
@@ -33,7 +37,7 @@ def turnos(request):
         if fecha:
             turnos = Turno.objects.filter(medico=medico).filter(dia=fecha)
         else:
-            turnos = Turno.objects.filter(medico=medico).filter()
+            turnos = Turno.objects.filter(medico=medico)
     return render(request,"clinica/turnos.html", {
         "titulo": "Turnos asignados a pacientes",
         "turnos": turnos,
@@ -328,7 +332,12 @@ def generar_turno(request):
         form = FormGenerarTurno(request.POST)
         if form.is_valid():
             paciente = form.cleaned_data["paciente"]
-            medico = form.cleaned_data["medico"]
+            medico_object = paciente.medico
+            medico_id = medico_object.id
+            try:
+                medico = Medico.objects.get(id = medico_id)
+            except Medico.DoesNotExist:
+                raise Http404("No se encontro medico")            
             dia = form.cleaned_data["dia"]
             hora = form.cleaned_data["hora"]
             turno = Turno(paciente=paciente,
@@ -345,7 +354,6 @@ def generar_turno(request):
 
 class FormGenerarTurno(forms.Form):
     paciente = forms.ModelChoiceField(queryset = Paciente.objects.all())
-    medico = forms.ModelChoiceField(queryset = Medico.objects.all())
     dia = forms.DateField()
     hora = forms.TimeField()
     
@@ -353,7 +361,11 @@ def comentario_medico(request):
     if request.method == "POST":
         form = FormComentarMedico(request.POST)
         if form.is_valid():
-            medico = form.cleaned_data["medico"]
+            medico_user = request.user.username
+            try:
+                medico = Medico.objects.get(username = medico_user)
+            except Medico.DoesNotExist:
+                raise Http404("No se encontro medico")   
             paciente = form.cleaned_data["paciente"]
             comentario = form.cleaned_data["observacion"]
             historial_medico = HistorialMedico(observacion = comentario,
@@ -368,13 +380,13 @@ def comentario_medico(request):
     return render(request, "clinica/comentario_medico.html", {"form": FormComentarMedico})
 
 class FormComentarMedico(forms.Form):
-    medico = forms.ModelChoiceField(queryset = Medico.objects.all())
     paciente = forms.ModelChoiceField(queryset = Paciente.objects.all())
     observacion = forms.CharField()
 
 def productos_mas_vendidos(request):
     productos = Producto.objects.all()
-    cant_max = 0
+    cant_max1 = 0
+    cant_max2 = 0
     ahora = datetime.now()
     mes = timedelta(weeks=4)
     fecha = ahora - mes
@@ -383,8 +395,31 @@ def productos_mas_vendidos(request):
         cantidad_prod = 0
         for ped in pedidos_prod:
             cantidad_prod = cantidad_prod + ped.cantidad
-        if cantidad_prod > cant_max:
-            prod_max = prod.nombre_producto
-            cant_max = cantidad_prod
-    return render(request, "clinica/productos_mas_vendidos.html", {"cantidad": cant_max,
-                                                                   "producto": prod_max})
+        if cantidad_prod > cant_max1:
+            prod_max1 = prod.nombre_producto
+            cant_max1= cantidad_prod
+        elif cantidad_prod > cant_max2:
+            prod_max2 = prod.nombre_producto
+            cant_max2= cantidad_prod
+    return render(request, "clinica/productos_mas_vendidos.html", {"cant_max1": cant_max1,
+                                                                   "cant_max2": cant_max2,
+                                                                   "prod_max1": prod_max1,
+                                                                   "prod_max2": prod_max2})
+    
+def total_vendedor(request):
+    vendedores = Vendedor.objects.all()
+    vendedores_ventas = []
+    today = datetime.now()
+    año = today.year
+    for vend in vendedores:
+        for m in range(12):
+            mes = m+1
+            cantidad_ventas = Pedido.objects.filter(vendedor = vend).filter(fecha_y_hora__year__gte=año,
+                                 fecha_y_hora__month__gte=mes,
+                                 fecha_y_hora__year__lte=año,
+                                 fecha_y_hora__month__lte=mes).count()
+            mes_nombre = calendar.month_name[mes] 
+            vendedor_ventas = (vend, cantidad_ventas, mes_nombre)
+            vendedores_ventas.append(vendedor_ventas)
+    print(vendedor_ventas)
+    return render(request, "clinica/total_vendedor.html", {"ventas": vendedores_ventas})

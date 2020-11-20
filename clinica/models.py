@@ -31,7 +31,7 @@ class Turno(models.Model):
     asistio = models.ForeignKey(AsistenciaTurno, on_delete=models.RESTRICT, related_name="asistencia_turno", default = "1")
     
     def __str__(self):
-        return f" {self.paciente} {self.dia} {self.hora} {self.medico} {self.asistio}"
+        return f"{self.dia}"
     
 class HistorialMedico(models.Model):
     paciente = models.ForeignKey(Paciente, on_delete=models.RESTRICT, related_name="paciente_historial")
@@ -82,7 +82,16 @@ class EstadoPedido(models.Model):
     def __str__(self):
         return f"{self.nombre}" 
     
+class Vendedor(models.Model):
+    username = models.CharField(max_length=64)
+    nombre = models.CharField(max_length=64)
+    apellido = models.CharField(max_length=64)
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido}"
+    
 class Pedido(models.Model):
+    vendedor = models.ForeignKey(Vendedor, on_delete=models.RESTRICT, related_name="vendedor_pedido")
     paciente = models.ForeignKey(Paciente, on_delete=models.RESTRICT, related_name="paciente_producto")
     producto = models.ForeignKey(Producto, on_delete=models.RESTRICT, related_name="producto_pedido")
     cantidad = models.IntegerField()
@@ -92,4 +101,4 @@ class Pedido(models.Model):
     fecha_y_hora = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
-        return f"{self.paciente} {self.producto} {self.cantidad} {self.subtotal} {self.fecha_y_hora} {self.tipo_de_pago} {self.estado}"
+        return f"{self.paciente} {self.producto} {self.cantidad} {self.subtotal} {self.fecha_y_hora} {self.tipo_de_pago} {self.estado} {self.vendedor}"

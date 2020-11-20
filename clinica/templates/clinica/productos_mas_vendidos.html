@@ -2,10 +2,9 @@
 
 {% block body %}
 <h1>Productos más vendidos en el mes:</h1>
-
-
-<p>Cantidad maxima vendida: {{cantidad}} {{producto}}</p>
- 
-
+<ul>
+<li>Producto más vendido: {{prod_max1}}. Cantidad vendida: {{cant_max1}} unidades.</li>
+<li>Segundo producto más vendido: {{prod_max2}}. Cantidad vendida: {{cant_max2}} unidades.</li>
+</ul>
 <a href="{% url 'usuarios:index' %}">Menu principal</a>
 {% endblock %}

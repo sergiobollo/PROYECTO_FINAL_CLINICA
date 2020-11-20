@@ -19,5 +19,7 @@ urlpatterns = [
     path("editar_pedido_taller", views.editar_pedido_taller, name ="editar_pedido_taller"),
     path("asistencia_paciente_turno", views.asistencia_paciente_turno, name ="asistencia_paciente_turno"),
     path("ausencia_paciente_turno", views.ausencia_paciente_turno, name ="ausencia_paciente_turno"),
-    path("productos_mas_vendidos", views.productos_mas_vendidos, name ="productos_mas_vendidos")
+    path("productos_mas_vendidos", views.productos_mas_vendidos, name ="productos_mas_vendidos"),
+    path("total_vendedor", views.total_vendedor, name ="total_vendedor")
+    
 ]

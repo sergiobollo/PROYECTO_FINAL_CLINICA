@@ -1,0 +1,15 @@
+ {% extends "clinica/layout.html" %}
+
+{% block body %}
+<h1>Ventas totales por mes clasificadas por vendedores</h1>
+<a href="{% url 'usuarios:index' %}">Menu principal</a>
+
+    {% for item in ventas %}
+    <ul>
+
+    <li>El vendedor {{item.0.nombre}} {{item.0.apellido}} hizo {{item.1}} ventas en el mes de {{item.2}}</li>
+  
+    </ul>
+    {% endfor %}
+<a href="{% url 'usuarios:index' %}">Menu principal</a>
+{% endblock %}

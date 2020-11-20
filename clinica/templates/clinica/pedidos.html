@@ -3,7 +3,7 @@
 {% block body %}
 <h1>{{titulo}}</h1>
 
-{% if request.user.email == "gerencia@clinica.com" %}
+{% if request.user.is_gerencia %}
 <p>Filtrar pacientes por lapso de tiempo:</p>
 <form method="post">
     {% csrf_token %}
