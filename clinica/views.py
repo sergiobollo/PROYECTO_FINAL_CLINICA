@@ -13,7 +13,6 @@ locale.setlocale(locale.LC_ALL, 'es-ES')
 
 def index(request):
     return render(request,"clinica/index.html", {
-        "titulo": "Bienvenidos a nuestra clínica de Optometría"
         })
     
 def turnos(request):

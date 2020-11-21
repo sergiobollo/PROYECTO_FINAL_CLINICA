@@ -1,11 +1,12 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>{{titulo}}</h1>
+<div class="container d-flex flex-column align-items-center">
 {% if request.user.username %}
 <a href="{% url 'usuarios:index' %}">Menu principal</a>
 {% else %}
-<p>Inicie sesión para comenzar:</p>
-<a href="{% url 'usuarios:login' %}">Login</a>
+<p class="h3 mx-auto">Inicie sesión para comenzar</p>
+<a class="btn btn-info btn-lg my-3 mx-auto" href="{% url 'usuarios:login' %}">Login</a>
 {% endif %}
+</div>
 {% endblock %}

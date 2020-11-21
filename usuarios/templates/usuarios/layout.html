@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Clinica</title>
+{% load bootstrap4 %}
+{% bootstrap_css %}
+<title>Usuarios</title>
 </head>
 <body>
+<div class="jumbotron d-flex">
+<h1 class="display-4  mx-auto">Clínica de Optometría Polotic</h1>
+</div>
 {% block body %}
 {% endblock %}
+{% bootstrap_javascript jquery='full' %}
 </body>
 </html>
