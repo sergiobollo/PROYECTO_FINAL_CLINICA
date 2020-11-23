@@ -7,7 +7,6 @@ from django.utils.translation import get_language, activate
 from datetime import datetime, timedelta
 from django.template.defaultfilters import date
 import calendar, locale
-locale.setlocale(locale.LC_ALL, 'es-ES')
 
 # Create your views here.
 
@@ -20,7 +19,7 @@ def turnos(request):
     if request.method == "POST":
         form = FormFiltroFecha(request.POST)
         if form.is_valid():
-            dia = form.cleaned_data["dia"]
+            dia = form.cleaned_data["filtrar_turnos_por_dia"]
             fecha = dia.dia
     if request.user.is_secretaria:
         if fecha:
@@ -44,7 +43,7 @@ def turnos(request):
         )
     
 class FormFiltroFecha(forms.Form):
-    dia= forms.ModelChoiceField(queryset=Turno.objects.all())
+    filtrar_turnos_por_dia = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=Turno.objects.all())
     
 def asistencia_paciente_turno(request):
     ahora = datetime.now()
@@ -322,9 +321,14 @@ def crear_paciente(request):
     return render(request, "clinica/crear_paciente.html", {"form": FormCrearPaciente})
 
 class FormCrearPaciente(forms.Form):
-    nombre = forms.CharField(max_length=64, label ="Nombre")
-    apellido = forms.CharField(max_length=64, label ="Apellido")
-    medico_asignado = forms.ModelChoiceField(queryset = Medico.objects.all())
+    nombre = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=64, label ="Nombre")
+    apellido = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=64, label ="Apellido")
+    medico_asignado = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset = Medico.objects.all())
+    
+class FormGenerarTurno(forms.Form):
+    paciente = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset = Paciente.objects.all())
+    dia = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control'}))
+    hora = forms.TimeField(widget=forms.TimeInput(attrs={'class': 'form-control'}))
 
 def generar_turno(request):
     if request.method == "POST":
@@ -352,9 +356,9 @@ def generar_turno(request):
     return render(request, "clinica/generar_turno.html", {"form": FormGenerarTurno})
 
 class FormGenerarTurno(forms.Form):
-    paciente = forms.ModelChoiceField(queryset = Paciente.objects.all())
-    dia = forms.DateField()
-    hora = forms.TimeField()
+    paciente = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset = Paciente.objects.all())
+    dia = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control'}))
+    hora = forms.TimeField(widget=forms.TimeInput(attrs={'class': 'form-control'}))
     
 def comentario_medico(request):
     if request.method == "POST":

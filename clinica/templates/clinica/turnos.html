@@ -1,10 +1,10 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
+<div class="container d-flex flex-column align-items-center">
 <h1>{{titulo}}</h1>
 
-<p>Filtrar turnos:</p>
-<form method="post">
+<form  class = "w-75 form-group " method="post">
     {% csrf_token %}
     {% for field in form %}
     <div>
@@ -12,12 +12,30 @@
       {{ field }}
     </div>
     {% endfor %}
-    <input type="submit">
+    <div class="d-flex align-items-center">
+    <input class="btn btn-info mt-3 mx-auto" value = "Filtrar" type="submit">
+    </div>
 </form>
-<ul>
+
+<div class="table-responsive">
+  <table class="table" id ="tabla">
+    <thead>
+    <tr>
+      <th scope="col">Paciente</th>
+      <th scope="col">Dia</th>
+      <th scope="col">Hora</th>
+      <th scope="col">Medico</th>
+      <th scope="col">Asistio</th>
+    </tr>
+  </thead>
+  <tbody>
 {% for turno in turnos %}
-<li>El paciente {{turno.paciente}} tiene turno el dia {{turno.dia}} a las {{turno.hora}} con el doctor {{turno.medico}}. Asistencia al turno: {{turno.asistio}}</li>
+<tr>
+      <td>{{turno.paciente}}</td> <td>{{turno.dia}}</td> <td>{{turno.hora}}</td> <td>{{turno.medico}}</td> <td>{{turno.asistio}}</td>
+</tr>
 {% endfor %}
-</ul>
-<a href="{% url 'usuarios:index' %}">Menu principal</a>
+  </table>
+</div>
+
+</div>
 {% endblock %}

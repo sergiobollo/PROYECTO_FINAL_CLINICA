@@ -1,17 +1,19 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>Generar turno:</h1>
-<form method="post">
+<div class="container d-flex flex-column align-items-center">
+<h3 class="text-warning">Generar turno</h3>
+<form  class = "w-75 form-group " method="post"> 
     {% csrf_token %}
     {% for field in form %}
     <div>
       <label for="{{ field.name }}">{{ field.label }}</label>
-      {{ field }}
+     {{ field  }}
     </div>
     {% endfor %}
-    <input type="submit">
-</form>
-<a href="{% url 'usuarios:index' %}">Menu principal</a>
-<a href="{% url 'clinica:turnos' %}">Volver al listado de turnos</a>
+    <div class="d-flex align-items-center">
+    <input class="btn btn-info mt-3 mx-auto" type="submit">
+    </div>
+</form >
+</div>
 {% endblock %}

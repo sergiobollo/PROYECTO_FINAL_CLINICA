@@ -1,8 +1,9 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>Crear nuevo paciente:</h1>
-<form method="post">
+<div class="container d-flex flex-column align-items-center">
+<h3>Crear nuevo paciente</h3>
+<form  class = "w-75 form-group " method="post">
     {% csrf_token %}
     {% for field in form %}
     <div>
@@ -10,7 +11,10 @@
       {{ field }}
     </div>
     {% endfor %}
-    <input type="submit">
+    <div class="d-flex align-items-center">
+    <input class="btn btn-info mt-3 mx-auto" type="submit">
+    </div>
 </form>
-<a href="{% url 'usuarios:index' %}">Menu principal</a>
+
+</div>
 {% endblock %}

@@ -7,7 +7,7 @@ class Medico(models.Model):
     especialidad = models.CharField(max_length=64)
   
     def __str__(self):
-        return f"{self.nombre} {self.apellido} {self.especialidad}"
+        return f"{self.nombre} {self.apellido}"
     
 class AsistenciaTurno(models.Model):
     nombre = models.CharField(max_length=64)
