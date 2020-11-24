@@ -7,7 +7,7 @@
 <li> {{historia_medica.observacion}}. Diagnostico dado por {{historia_medica.medico}}. Fecha y hora: {{historia_medica.fecha_y_hora}}</li>
 {% endfor %}
 </ul>
-<a href="{% url 'clinica:comentario_medico' %}">Cargar nuevo comentario a historial medico</a>
-<a href="{% url 'clinica:pacientes' %}">Volver al listado de pacientes</a>
-<a href="{% url 'usuarios:index' %}">Menu principal</a>
+<div class="d-flex align-items-center">
+<a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
+</div>
 {% endblock %}

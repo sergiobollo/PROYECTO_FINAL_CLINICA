@@ -24,5 +24,7 @@
 {% endfor %}
 </ul>
 
-<a href="{% url 'usuarios:index' %}">Menu principal</a>
+<div class="d-flex align-items-center">
+<a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
+</div>
 {% endblock %}

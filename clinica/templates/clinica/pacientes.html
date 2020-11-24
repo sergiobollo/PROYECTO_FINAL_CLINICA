@@ -1,13 +1,30 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>{{titulo}}</h1>
-<p>Doctor: {{medico}}</p>
-<ul>
-{% for paciente in pacientes %}
-<li>Legajo {{paciente.id}}: {{paciente.nombre}}  {{paciente.apellido}} <a href="{% url 'clinica:historial_medico' paciente.id %}">Historial médico</a></li>
-{% endfor %}
-</ul>
+<div class="container d-flex flex-column align-items-center">
+<h3 class = "text-info">{{titulo}}</h3>
+<p class = "text-info">Doctor: {{medico}}</p>
 
-<a href="{% url 'usuarios:index' %}">Menu principal</a>
+<div class="table-responsive">
+  <table class="table" id ="tabla">
+    <thead>
+    <tr>
+      <th class="text-center" scope="col">Legajo</th>
+      <th class="text-center" scope="col">Nombre</th>
+      <th class="text-center" scope="col">Apellido</th>
+      <th class="text-center" scope="col">Historial médico</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for paciente in pacientes %}
+<tr>
+<td class="text-center">{{paciente.id}}</td> <td class="text-center">{{paciente.nombre}}</td>  <td class="text-center">{{paciente.apellido}}</td> <td class="text-center"><a href="{% url 'clinica:historial_medico' paciente.id %}">Link</a></td>
+</tr>
+{% endfor %}
+  </table>
+
+<div class="d-flex align-items-center">
+<a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
+</div>
+</div>
 {% endblock %}

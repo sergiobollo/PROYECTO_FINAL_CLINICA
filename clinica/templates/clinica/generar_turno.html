@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="container d-flex flex-column align-items-center">
-<h3 class="text-warning">Generar turno</h3>
+<h3 class="text-info">Generar turno</h3>
 <form  class = "w-75 form-group " method="post"> 
     {% csrf_token %}
     {% for field in form %}
@@ -12,8 +12,11 @@
     </div>
     {% endfor %}
     <div class="d-flex align-items-center">
-    <input class="btn btn-info mt-3 mx-auto" type="submit">
+    <input class="btn btn-info mt-3 mx-auto" value="Generar" type="submit">
     </div>
 </form >
+</div>
+<div class="d-flex align-items-center">
+<a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
 </div>
 {% endblock %}

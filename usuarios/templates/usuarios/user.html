@@ -2,31 +2,56 @@
 {% block body %}
 <div class="container d-flex flex-column align-items-center">
 
-<h4 class ="mt-3">Panel de control</h4>
-
 {% if request.user.is_superuser %}
-<ul>
-    <li><a href="{% url 'admin:index' %}">Gestionar sitio</a></li>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-info">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Gestionar sitio</a></li>
 </ul>
+</div>
+</nav>
+
 {% endif %}
 
 {% if request.user.is_secretaria %}
 
-<ul class="list-unstyled">
-<li><a href="{% url 'clinica:generar_turno' %}">Generar turno</a></li>
-<li><a href="{% url 'admin:index' %}">Editar o eliminar turnos</a></li>
-<li><a href="{% url 'clinica:turnos' %}">Consultar turnos</a></li>
-<li><a href="{% url 'clinica:crear_paciente' %}">Crear nuevo paciente</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-info">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item"><a class="nav-link" href="{% url 'clinica:generar_turno' %}">Generar turno</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Editar o eliminar turnos</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'clinica:turnos' %}">Consultar turnos</a>
+    <li class="nav-item"><a class="nav-link" href="{% url 'clinica:crear_paciente' %}">Crear nuevo paciente</a></li>
 </ul>
+</div>
+</nav>
+
 {% endif %}
 
 {% if request.user.is_medico %}
-<ul class="list-unstyled">
-    <li><a href="{% url 'clinica:turnos' %}">Consultar turnos</a></li>
-    <li><a href="{% url 'clinica:pacientes' %}">Consultar historial medico por paciente</a></li>
-    <li><a href="{% url 'clinica:comentario_medico' %}">Cargar datos al historial medico</a></li>
-    <li><a href="{% url 'admin:index' %}">Editar o eliminar historiales médicos</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-info">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item"><a class="nav-link" href="{% url 'clinica:turnos' %}">Consultar turnos</a></li>
+    <li class="nav-item"><a class="nav-link"  href="{% url 'clinica:pacientes' %}">Consultar historial medico por paciente</a></li>
+    <li class="nav-item"><a class="nav-link"  href="{% url 'clinica:comentario_medico' %}">Cargar datos al historial medico</a></li>
+    <li class="nav-item"><a class="nav-link"  href="{% url 'admin:index' %}">Editar o eliminar historiales médicos</a></li>
 </ul>
+</div>
+</nav>
 {% endif %}
 
 {% if request.user.is_vendedor %}
@@ -58,11 +83,13 @@
 <li><a href="{% url 'clinica:total_vendedor' %}">Ventas totales por mes clasificadas por Vendedores</a></li>
 </ul>
 {% endif %}
+</div>
+<div class="container d-flex flex-column align-items-center mt-3">
 <ul class="list-group">
-<li class="list-group-item">Username: {{ request.user.username }}</li>
-<li class="list-group-item">Nombre: {{ request.user.first_name }} {{ request.user.last_name }}</li>
-<li class="list-group-item">Email: {{ request.user.email }}</li>
+<li class="list-group-item text-info">Username: {{ request.user.username }}</li>
+<li class="list-group-item text-info">Nombre: {{ request.user.first_name }} {{ request.user.last_name }}</li>
+<li class="list-group-item text-info">Email: {{ request.user.email }}</li>
 </ul>
-<a class="m-3 btn btn-info btn-lg bg-danger" href="{% url 'usuarios:logout' %}">Desconectarse</a>
+<a class="m-3 btn btn-info btn-sm bg-danger" href="{% url 'usuarios:logout' %}">Desconectarse</a>
 </div>
 {% endblock %}

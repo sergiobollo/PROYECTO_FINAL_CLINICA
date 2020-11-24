@@ -6,5 +6,7 @@
 <li>Producto más vendido: {{prod_max1}}. Cantidad vendida: {{cant_max1}} unidades.</li>
 <li>Segundo producto más vendido: {{prod_max2}}. Cantidad vendida: {{cant_max2}} unidades.</li>
 </ul>
-<a href="{% url 'usuarios:index' %}">Menu principal</a>
+<div class="d-flex align-items-center">
+<a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
+</div>
 {% endblock %}

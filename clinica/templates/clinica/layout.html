@@ -11,13 +11,11 @@
 <title>Clinica</title>
 </head>
 <body>
-<<div class="jumbotron jumbotron-fluid bg-warning d-flex">
-<h1 class="display-4 text-danger mx-auto">Clínica de Optometría Polotic</h1>
+<div class="jumbotron jumbotron-fluid bg-info d-flex">
+<h1 class="display-4 text-light mx-auto">Clínica de Optometría Polotic</h1>
 </div>
-<div class="d-flex align-items-center">
-<a class="btn btn-warning text-danger btn-lg mb-3 mx-auto" href="{% url 'usuarios:index' %}">Menu principal</a>
-</div>
-<hr>
+
+
 {% block body %}
 {% endblock %}
 {% bootstrap_javascript jquery='full' %}

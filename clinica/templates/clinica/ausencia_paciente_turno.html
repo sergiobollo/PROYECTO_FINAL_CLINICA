@@ -21,5 +21,7 @@
 <li>El paciente {{turno.paciente}} tiene turno el dia {{turno.dia}} a las {{turno.hora}} con el doctor {{turno.medico}}. Asistencia al turno: {{turno.asistio}}</li>
 {% endfor %}
 </ul>
-<a href="{% url 'usuarios:index' %}">Menu principal</a>
+<div class="d-flex align-items-center">
+<a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
+</div>
 {% endblock %}
