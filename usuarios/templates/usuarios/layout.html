@@ -1,20 +1,51 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
 {% load bootstrap4 %}
 {% bootstrap_css %}
-<title>Usuarios</title>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<title>Clinica</title>
 </head>
 <body>
 <div class="jumbotron jumbotron-fluid bg-info d-flex">
 <h1 class="display-4 text-light mx-auto">Clínica de Optometría Polotic</h1>
 </div>
 
+
 {% block body %}
 {% endblock %}
+
+<footer class="sticky-bottom container container-fluid">
+    <div class="row">
+        <div class="col-4 col-sm">
+            <div class="d-flex flex-column">
+                <p><a href="https://www.facebook.com">Facebook</a></p>
+                <p><a href="https://www.twitter.com">Twitter</a></p>
+                <p><a href="https://www.instagram.com">Instagram</a></p>
+                <p><a href="https://www.google.com">Google+</a></p>
+            </div>
+        </div>
+        <div class="col-4 col-sm">
+            <address  class="d-flex flex-column align-items-center text-center">
+            <h6>Contacto</h6>
+            <p>Av Vista 2020</p>
+            <p>+5491112345678</p>
+            <p>info@clinica.com</p>
+            </address>
+        </div>
+        <div class="col-4 col-sm">
+            <div class="d-flex flex-column align-items-end">     
+                <p><a href="#">Nosotros</a></p>
+                <p><a href="#">Precios</a></p>
+                <p><a href="#">Terminos</a></p>
+                <p><a href="#">Como llegar</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
 
 {% bootstrap_javascript jquery='full' %}
 </body>

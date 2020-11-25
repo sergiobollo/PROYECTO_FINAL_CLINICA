@@ -6,6 +6,7 @@ footer {
     font-size: 10px !important;
 }
 
+
 @media screen and (min-width: 770px) {
     a,
     p,
@@ -24,7 +25,7 @@ footer {
 @media screen and (max-width: 770px) {
     a,
     p,
-    li, td, th{
+    li, td, th {
         font-size: 12px !important;
     }
     h4 {

@@ -1,18 +1,21 @@
 {% extends "usuarios/layout.html" %}
+
 {% block body %}
 <div class="container d-flex flex-column align-items-center">
-<p class="h3 mx-auto">Iniciar sesión</p>
-{% if mensaje %}
-<div>{{ mensaje }}</div>
-{% endif %}
+    <p class="h3 mx-auto text-info">Iniciar sesión</p>
+    {% if mensaje %}
+        <div>{{ mensaje }}</div>
+    {% endif %}
 
 <form  class = "w-75 form-group container d-flex flex-column align-items-center" action="{% url 'usuarios:login' %}" method="post">
 {% csrf_token %}
-<input class="m-3 form-control" type="text", name="username", placeholder="Username">
-<input class="m-3 form-control" type="password", name="password", placeholder="Password">
-<input class="m-3 btn btn-info btn-lg" type="submit", value="Login">
+    <input class="m-3 form-control" type="text", name="username", placeholder="Username">
+    <input class="m-3 form-control" type="password", name="password", placeholder="Password">
+    <input class="m-3 btn btn-info btn-lg" type="submit", value="Login">
 </form>
 
-<a href="{% url 'clinica:index' %}">Home</a>
+<div class="d-flex align-items-center">
+    <a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'clinica:index' %}">Home</a>
+</div>
 
 {% endblock %}

@@ -112,11 +112,15 @@ LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'America/Buenos_Aires'
 
-USE_I18N = True
+USE_I18N = False
 
-USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
+
+DATE_FORMAT = 'd-m-Y'
+
+DATE_INPUT_FORMATS = 'd-m-Y'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -125,5 +129,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    '/css/clinica.css',
+    '/css/style.css'
 ]

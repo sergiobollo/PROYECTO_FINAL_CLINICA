@@ -7,6 +7,7 @@ from django.utils.translation import get_language, activate
 from datetime import datetime, timedelta
 from django.template.defaultfilters import date
 import calendar, locale
+from django.db import models
 
 # Create your views here.
 
@@ -383,8 +384,9 @@ def comentario_medico(request):
     return render(request, "clinica/comentario_medico.html", {"form": FormComentarMedico})
 
 class FormComentarMedico(forms.Form):
-    paciente = forms.ModelChoiceField(queryset = Paciente.objects.all())
-    observacion = forms.CharField()
+    paciente = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset = Paciente.objects.all())
+    observacion = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    
 
 def productos_mas_vendidos(request):
     productos = Producto.objects.all()
