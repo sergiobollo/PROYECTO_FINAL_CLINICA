@@ -1,12 +1,29 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>Productos más vendidos en el mes:</h1>
-<ul>
-<li>Producto más vendido: {{prod_max1}}. Cantidad vendida: {{cant_max1}} unidades.</li>
-<li>Segundo producto más vendido: {{prod_max2}}. Cantidad vendida: {{cant_max2}} unidades.</li>
-</ul>
+<h4 class = "text-info text-center pb-3">Productos más vendidos en el mes:</h4>
+<div class="table-responsive mt-3">
+  <table class="table" id ="tabla">
+    <thead>
+    <tr>
+          <th class="text-center" scope="col">Ranking</th>
+      <th class="text-center" scope="col">Productos más vendido</th>
+      <th class="text-center" scope="col">Cantidad vendida: </th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <th class="text-center" scope="row">1</th>
+<td class="text-center"> {{prod_max1}}</td> <td class="text-center"> {{cant_max1}}</td>
+</tr>
+<tr>
+<th class="text-center" scope="row">2</th>
+<td class="text-center"> {{prod_max2}}</td> <td class="text-center"> {{cant_max2}}</td>
+</tr>
+</table>
+
 <div class="d-flex align-items-center">
 <a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
+</div>
 </div>
 {% endblock %}

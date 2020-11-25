@@ -1,15 +1,29 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>{{titulo}}</h1>
+<h4 class = "text-info text-center pb-3">{{titulo}}</h4>
 
-<a href="{% url 'admin:index' %}">Modificar o eliminar productos</a>
-
-<ul>
+<div class="table-responsive">
+  <table class="table" id ="tabla">
+    <thead>
+    <tr>
+      <th class="text-center" scope="col">Codigo</th>
+      <th class="text-center" scope="col">Nombre</th>
+      <th class="text-center" scope="col">Precio</th>
+      <th class="text-center" scope="col">Vision lente</th>
+      <th class="text-center" scope="col">Lado lente</th>
+      <th class="text-center" scope="col">Armazon</th>
+    </tr>
+  </thead>
+  <tbody>
 {% for producto in productos %}
-<li>Codigo: {{producto.id}}. Nombre: {{producto.nombre_producto}}. Precio: ${{producto.precio}}. Vision lente: {{producto.lejos_cerca}}. Lado lente: {{producto.izquierda_derecha}}. Armazon: {{producto.armazon}}</li>
+<tr>
+ <td class="text-center">{{producto.id}}</td> <td class="text-center"> {{producto.nombre_producto}} </td> <td class="text-center">
+ $ {{producto.precio}}</td> <td class="text-center"> {{producto.lejos_cerca}} </td> <td class="text-center">
+ {{producto.izquierda_derecha}}</td> <td class="text-center"> {{producto.armazon}}</td>
+ </tr>
 {% endfor %}
-</ul>
+</table>
 
 <div class="d-flex align-items-center">
 <a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>

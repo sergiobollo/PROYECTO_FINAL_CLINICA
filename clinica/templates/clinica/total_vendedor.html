@@ -1,16 +1,30 @@
  {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>Ventas totales por mes clasificadas por vendedores</h1>
-<a href="{% url 'usuarios:index' %}">Menu principal</a>
+<h4 class = "text-info text-center pb-3">Ventas totales por mes clasificadas por vendedor</h4>
 
+<div class="table-responsive">
+  <table class="table" id ="tabla">
+    <thead>
+    <tr>
+    <th class="text-center" scope="col">Mes</th>
+      <th class="text-center" scope="col">Nombre</th>
+      <th class="text-center" scope="col">Apellido</th>
+      <th class="text-center" scope="col">Usuario de vendedor</th>
+      <th class="text-center" scope="col">Cantidad de ventas</th>
+
+    </tr>
+  </thead>
+  <tbody>
     {% for item in ventas %}
-    <ul>
 
-    <li>El vendedor {{item.0.nombre}} {{item.0.apellido}} hizo {{item.1}} ventas en el mes de {{item.2}}</li>
-  
-    </ul>
+    <tr>
+        <td class="text-center">{{item.2}}</td>  <td class="text-center">{{item.0.nombre}}</td> <td class="text-center"> {{item.0.apellido}} </td> <td class="text-center">{{item.0.username}}</td> <td class="text-center">  {{item.1}}</td>
+    </tr>
+    
     {% endfor %}
+  </table>
+
 <div class="d-flex align-items-center">
 <a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
 </div>

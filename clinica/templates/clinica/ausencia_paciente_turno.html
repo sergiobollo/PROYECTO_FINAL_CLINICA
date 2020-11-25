@@ -1,11 +1,11 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>Pacientes que no asistieron a los turnos</h1>
+<h4 class = "text-info text-center pb-3">Pacientes que no asistieron a los turnos</h4>
 
-
-<p>Filtrar pacientes por fecha:</p>
-<form method="post">
+<div class="container d-flex flex-column align-items-center">
+<p class="text-info">Filtrar pacientes por lapso de tiempo</p>
+<form  class = "w-75 form-group " method="post"> 
     {% csrf_token %}
     {% for field in form %}
     <div>
@@ -13,15 +13,33 @@
       {{ field }}
     </div>
     {% endfor %}
-    <input type="submit">
+   <div class="d-flex align-items-center">
+    <input class="btn btn-info mt-3 mx-auto" value="Filtrar" type="submit">
+    </div>
 </form>
 {{mensaje}}
-<ul>
+<div class="table-responsive mt-3">
+  <table class="table" id ="tabla">
+    <thead>
+    <tr>
+      <th class="text-center" scope="col">Paciente</th>
+      <th class="text-center" scope="col">Día</th>
+      <th class="text-center" scope="col">Hora</th>
+      <th class="text-center" scope="col">Médico</th>
+      <th class="text-center" scope="col">Asistió</th>
+    </tr>
+  </thead>
+  <tbody>
 {% for turno in turnos %}
-<li>El paciente {{turno.paciente}} tiene turno el dia {{turno.dia}} a las {{turno.hora}} con el doctor {{turno.medico}}. Asistencia al turno: {{turno.asistio}}</li>
+<tr>
+<td class="text-center"> {{turno.paciente}}</td> <td class="text-center">  {{turno.dia}} </td> <td class="text-center"> 
+{{turno.hora}}</td> <td class="text-center">  {{turno.medico}}</td> <td class="text-center">  {{turno.asistio}}</td>
+</tr>
 {% endfor %}
-</ul>
+</table>
+
 <div class="d-flex align-items-center">
 <a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
+</div>
 </div>
 {% endblock %}

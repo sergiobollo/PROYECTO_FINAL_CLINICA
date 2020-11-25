@@ -1,8 +1,10 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>Hacer pedido nuevo:</h1>
-<form method="post">
+
+<div class="container d-flex flex-column align-items-center">
+<h3 class="text-info">Hacer pedido nuevo</h3>
+<form  class = "w-75 form-group " method="post"> 
     {% csrf_token %}
     {% for field in form %}
     <div>
@@ -10,11 +12,13 @@
       {{ field }}
     </div>
     {% endfor %}
-    <input type="submit">
+    <div class="d-flex align-items-center">
+    <input class="btn btn-info mt-3 mx-auto" value="Hacer pedido" type="submit">
+    </div>
 </form>
 <div class="d-flex align-items-center">
 <a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
 </div>
+</div>
+
 {% endblock %}
-
-
