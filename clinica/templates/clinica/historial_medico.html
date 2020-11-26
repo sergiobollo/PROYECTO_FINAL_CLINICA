@@ -1,13 +1,27 @@
 {% extends "clinica/layout.html" %}
 
 {% block body %}
-<h1>Historial médico de {{paciente.nombre}}, legajo numero {{paciente.id}}</h1>
-<ul>
+<div class="container d-flex flex-column align-items-center">
+<h4 class = "text-info text-center">Historial médico de {{paciente.nombre}} {{paciente.apellido}}</h4>
+<p class = "text-info text-center pb-3">Legajo: {{paciente.id}}</p>
+<div class="table-responsive">
+  <table class="table" id ="tabla">
+    <thead>
+    <tr>
+      <th class="text-center" scope="col">Observación</th>
+      <th class="text-center" scope="col">Fecha y hora</th>
+    </tr>
+  </thead>
+  <tbody>
 {% for historia_medica in historial_medico %}
-<li> {{historia_medica.observacion}}. Diagnostico dado por {{historia_medica.medico}}. Fecha y hora: {{historia_medica.fecha_y_hora}}</li>
+ <tr>
+    <td class="text-center">{{historia_medica.observacion}}</td>  <td class="text-center"> {{historia_medica.fecha_y_hora}}</td>
+ </tr>
 {% endfor %}
-</ul>
+</table>
+
 <div class="d-flex align-items-center">
 <a class="btn btn-info text-light btn-sm mb-3 mx-auto" href="{% url 'usuarios:index' %}">Home</a>
+</div>
 </div>
 {% endblock %}
