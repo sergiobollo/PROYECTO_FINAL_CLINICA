@@ -167,6 +167,11 @@ def pedidos(request):
         })
 
 def hacer_pedido(request):
+    usuario = request.user.username
+    try:
+        vendedor = Vendedor.objects.get(username = usuario)
+    except Medico.DoesNotExist:
+        raise Http404("No se encontro medico") 
     if request.method == "POST":
         form = FormNuevoPedido(request.POST)
         if form.is_valid():
@@ -180,7 +185,8 @@ def hacer_pedido(request):
                             producto=producto,
                             cantidad = cantidad,
                             tipo_de_pago= tipo_de_pago,
-                            subtotal = subtotal)
+                            subtotal = subtotal,
+                            vendedor = vendedor)
             pedido.save()
             return HttpResponseRedirect(reverse("clinica:pedidos"))
         else:

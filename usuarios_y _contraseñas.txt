@@ -1,0 +1,9 @@
+Usuario / Contraseña
+admin: admi2020
+secretaria: secre2020
+medico1: medi2020
+medico2: medi2020
+vendedor1: vende2020
+vendedor2: vende2020
+taller: talle2020
+gerencia: gere2020
